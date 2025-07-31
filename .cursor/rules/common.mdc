@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+
+## Language
+- Always reply in Chinese
+- All communication should be in Chinese language
+
+## SwiftUI Development
+- Use SwiftUI for iOS development
+- Target iOS 16+ as minimum deployment target
+- Ensure iPad compatibility and adaptive layouts
+- Use size classes and responsive design patterns
+- Implement proper navigation for both iPhone and iPad
+
+
+## Code Quality
+- Write clean, standardized code
+- Minimize comments, let code be self-documenting
+- Use proper SwiftUI best practices
+- Implement proper state management with `@State`, `@StateObject`, `@ObservedObject`
+- Use appropriate property wrappers
