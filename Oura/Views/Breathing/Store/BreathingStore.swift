@@ -12,7 +12,7 @@ class BreathingStore: ObservableObject {
     private var breathingTimer: Timer?
     
     static let totalCycles = 2
-    private let breathingDuration: TimeInterval = 4.0
+    private let breathingDuration: TimeInterval = 4.5
     
     init() {
         self.breathingText = LocalizationKeys.Status.readyToStart.localized
@@ -20,7 +20,7 @@ class BreathingStore: ObservableObject {
     
     func startBreathing(onComplete: (() -> Void)? = nil) {
         hasStarted = true
-        currentCycle = 0  // 从0开始计数
+        currentCycle = 0
         self.onComplete = onComplete
         startBreathingCycle()
     }
@@ -32,12 +32,9 @@ class BreathingStore: ObservableObject {
         isCompleted = true
         breathingText = LocalizationKeys.Status.completed.localized
         
-        // 简化完成动画，直接跳转到连接页面
         withAnimation(.easeOut(duration: 0.5)) {
             breathingScale = 1.3
         }
-        
-        // 立即跳转到连接页面
         if let onComplete = onComplete {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 onComplete()
@@ -50,8 +47,6 @@ class BreathingStore: ObservableObject {
         breathingTimer = nil
     }
     
-    // MARK: - Private Methods
-    
     private func startBreathingCycle() {
         breathingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
             self.updateBreathingAnimation()
@@ -62,26 +57,37 @@ class BreathingStore: ObservableObject {
         let cycleProgress = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: breathingDuration * 2)
         
         if cycleProgress < breathingDuration {
-            // 吸气阶段
             if !isInhaling {
-                // 刚开始新的吸气周期，从1开始计数
                 isInhaling = true
                 currentCycle += 1
             }
             breathingText = LocalizationKeys.Breathing.Status.inhale.localized
             let progress = cycleProgress / breathingDuration
-            breathingScale = 1.0 + (progress * 0.4)
+            let smoothProgress = easeInOutSine(progress)
+            breathingScale = 1.0 + (smoothProgress * 0.5)
         } else {
-            // 呼气阶段
             isInhaling = false
             breathingText = LocalizationKeys.Breathing.Status.exhale.localized
             let progress = (cycleProgress - breathingDuration) / breathingDuration
-            breathingScale = 1.4 - (progress * 0.4)
+            let smoothProgress = easeInOutSine(progress)
+            breathingScale = 1.5 - (smoothProgress * 0.5)
             
-            // 检查是否完成所有周期 (currentCycle从1开始计数到totalCycles)
             if progress > 0.95 && currentCycle >= Self.totalCycles {
                 completeBreathing(onComplete: onComplete)
             }
+        }
+    }
+    
+    private func easeInOutSine(_ t: Double) -> Double {
+        return -(cos(.pi * t) - 1) / 2
+    }
+    
+    private func easeInOutCubic(_ t: Double) -> Double {
+        if t < 0.5 {
+            return 4 * t * t * t
+        } else {
+            let f = t - 1
+            return 1 + 4 * f * f * f
         }
     }
 }

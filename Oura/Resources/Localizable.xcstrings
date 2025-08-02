@@ -20,6 +20,24 @@
     "%lld张卡牌" : {
       "comment" : "Number of cards"
     },
+    "app.privacy" : {
+      "comment" : "Privacy security message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Secure · Anonymous AI"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私安全 · 匿名AI"
+          }
+        }
+      }
+    },
     "app.subtitle" : {
       "comment" : "Application subtitle",
       "extractionState" : "stale",
@@ -34,6 +52,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "探索内心的智慧指引"
+          }
+        }
+      }
+    },
+    "app.tagline" : {
+      "comment" : "App tagline",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let Tarot guide your life direction"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让塔罗为你指引人生方向"
           }
         }
       }
@@ -56,42 +92,9 @@
         }
       }
     },
-    "app.tagline" : {
-      "comment" : "App tagline",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Let Tarot guide your life direction"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "让塔罗为你指引人生方向"
-          }
-        }
-      }
-    },
-    "app.privacy" : {
-      "comment" : "Privacy security message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacy Secure · Anonymous AI"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隐私安全 · 匿名AI"
-          }
-        }
-      }
-    },
     "app.wisdom" : {
       "comment" : "Ancient wisdom message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

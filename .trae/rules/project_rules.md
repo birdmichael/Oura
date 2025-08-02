@@ -1,0 +1,132 @@
+
+
+## Language
+- Always reply in Chinese
+- All communication should be in Chinese language
+
+## SwiftUI Development
+- Use SwiftUI for iOS development
+- Target iOS 17+ as minimum deployment target
+
+
+## Code Quality
+- Write clean, standardized code
+- Keep code concise and follow established patterns
+- Minimize comments, let code be self-documenting
+- Avoid unnecessary comments - code should express intent clearly
+- Only add comments for complex business logic or non-obvious implementations
+- Use proper SwiftUI best practices
+- Implement proper state management with `@State`, `@StateObject`, `@ObservedObject`
+- Use appropriate property wrappers
+
+## Protocol-Oriented Programming
+- Prioritize protocols for defining interfaces and abstractions
+- Use protocol extensions to provide default implementations
+- Leverage protocol composition for multiple inheritance effects
+- Follow dependency inversion principle - depend on abstractions, not concretions
+- Use generic protocols to enhance code reusability
+- Properly utilize `associatedtype` and `where` constraints
+
+## Design Patterns
+- **MVVM**: Strict separation of View, ViewModel, and Model layers
+- **Repository**: Abstract data access layer for unified data source management
+- **Dependency Injection**: Use constructor injection or protocol-based injection
+- **Strategy**: Define algorithm families using protocols with runtime switching
+- **Observer**: Implement reactive programming with `@Published` and Combine
+- **Factory**: Create object factories using protocols and generics
+- **Coordinator**: Manage navigation flow and coordination between screens
+- **Adapter**: Adapt different data sources or third-party library interfaces
+
+## Architecture Guidelines
+- Use modular architecture with clear protocol boundaries for each module
+- Implement loose coupling and high cohesion code structure
+- Apply interface segregation principle to avoid fat interfaces
+- Follow single responsibility principle - each type handles one concern
+- Prefer composition over inheritance design approach
+
+## Module Organization
+- **Views Structure**: Organize all views by feature modules
+- **Module Components**: Each module contains only:
+  - `Views/`: SwiftUI view components
+  - `Store/`: State management (ViewModel/ObservableObject)
+- **External Components**: Outside of modules:
+  - `Models/`: Data models shared across modules
+  - `Protocols/`: Interfaces and contracts used by multiple modules
+- **Module Boundaries**: Clear separation between different feature modules
+- **Shared Components**: Common UI components in separate shared module
+
+## File Organization Rules
+- **Module Naming**: Use PascalCase for module names (e.g., `UserProfile`, `Settings`)
+- **File Structure**:
+  ```
+  Models/
+    ├── CoreModels.swift
+    └── SharedDataTypes.swift
+  Protocols/
+    ├── StoreProtocols.swift
+    └── ServiceProtocols.swift
+  Views/
+    ├── SharedComponents/
+    │   ├── Views/
+    │   └── Store/
+    ├── ModuleName/
+    │   ├── Views/
+    │   │   ├── ModuleNameView.swift
+    │   │   └── ModuleNameDetailView.swift
+    │   └── Store/
+    │       └── ModuleNameStore.swift
+  ```
+- **Dependencies**: Modules depend on protocols, not concrete implementations
+- **Store Injection**: Inject stores through protocols for testability
+
+## State Management per Module
+- **Store Responsibility**: Each store manages only its module's state
+- **State Isolation**: Module states are isolated and don't directly access other module states
+- **Inter-Module Communication**: Use protocols and delegate patterns for cross-module communication
+- **Store Protocols**: Define store interfaces using protocols for dependency injection
+
+## Shared Components Strategy
+- **Models Location**: Place in root `Models/` folder for cross-module accessibility
+- **Protocols Location**: Place in root `Protocols/` folder for interface contracts
+- **Benefits of External Models/Protocols**:
+  - Single source of truth for data structures
+  - Easier refactoring and maintenance
+  - Better code reuse across modules
+  - Clear separation of concerns
+  - Reduced coupling between modules
+
+## Module Best Practices
+- **Single Feature Focus**: Each module handles one specific feature or business domain
+- **Protocol-First Design**: Define module interfaces before implementation
+- **Testable Architecture**: All stores should be easily mockable through protocols
+- **View-Store Binding**: Views only interact with their dedicated stores
+- **Store Lifecycle**: Stores are injected at view creation time, not accessed globally
+- **Module Exports**: Each module exports only necessary protocols and public interfaces
+
+## Internationalization & Localization
+- **All Display Text**: Use localized strings for all user-facing text content
+- **String Localization**: Use `NSLocalizedString` or SwiftUI's `LocalizedStringKey`
+- **Localization Files**: Use `Localizable.xcstrings` for modern string catalog approach
+- **String Keys**: Use descriptive, hierarchical keys (e.g., `"card_drawing.title"`, `"settings.privacy.title"`)
+- **Default Language**: Use English as the base language for development
+- **Context Comments**: Provide context comments and descriptions in xcstrings editor
+- **Dynamic Text**: Support Dynamic Type for accessibility
+- **RTL Support**: Consider right-to-left language support in layout design
+
+## Localization Best Practices
+- **String Key Naming**: Use dot notation for hierarchy: `"module.section.element"`
+- **Pluralization**: Use xcstrings built-in plural rules and variations
+- **String Interpolation**: Use format specifiers for dynamic content: `"Welcome %@"`
+- **No Hardcoded Text**: Never use hardcoded strings in UI components
+- **Localization Testing**: Test with longer languages (German) and shorter ones (Chinese)
+- **String Length**: Design UI to accommodate text expansion (up to 35% longer)
+- **String Catalog Benefits**: Leverage xcstrings features like automatic key detection and validation
+
+## Naming Conventions
+- **Store Naming**: `[ModuleName]Store` (e.g., `UserProfileStore`, `SettingsStore`)
+- **View Naming**: `[ModuleName]View`, `[ModuleName][Component]View`
+- **Protocol Naming**: `[Entity/Purpose]Protocol`, `[ModuleName]StoreProtocol` (global protocols)
+- **Model Naming**: `[Entity]Model`, `[Entity]` (global models, no module prefix)
+- **Constants**: Use `enum` for module-specific constants and strings
+- **Localization Keys**: Use descriptive hierarchical naming for string keys
+- **File Grouping**: Group related protocols and models by functionality, not by module

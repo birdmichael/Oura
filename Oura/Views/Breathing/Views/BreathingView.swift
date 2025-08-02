@@ -10,18 +10,17 @@ struct BreathingView: View {
             backgroundGradient
                 .ignoresSafeArea()
             
-            VStack(spacing: 40) {
-                Spacer()
+            VStack(spacing: 32) {
+                Spacer(minLength: 20)
                 
-                // 标题 - 固定高度避免跳动
-                VStack(spacing: 16) {
+                VStack(spacing: 20) {
                     Text(localized: LocalizationKeys.Breathing.title)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
-                    
-                    // 固定高度的内容区域
-                    VStack(spacing: 12) {
+                        .multilineTextAlignment(.center)
+                        .lineLimit(nil)
+                    VStack(spacing: 16) {
                         if !store.hasStarted {
                             Text(localized: LocalizationKeys.Breathing.instruction)
                                 .font(.title3)
@@ -79,30 +78,27 @@ struct BreathingView: View {
                                 .foregroundStyle(.green.opacity(0.7))
                                 .multilineTextAlignment(.center)
                             
-                            // 占位文本保持高度一致
                             Text("")
                                 .font(.caption)
                                 .foregroundStyle(.clear)
                         }
                     }
-                    .frame(height: 120) // 固定高度
-                    .padding(.horizontal, 30)
+                    .frame(minHeight: 100)
+                    .padding(.horizontal, 24)
                 }
                 
-                Spacer()
+                Spacer(minLength: 20)
                 
-                // 呼吸动画区域
                 breathingAnimationView
                 
-                Spacer()
+                Spacer(minLength: 20)
                 
-                // 底部按钮
                 bottomButtonView
                 
-                Spacer()
+                Spacer(minLength: 16)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 20)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
         }
         .onDisappear {
             store.stopBreathing()
@@ -111,7 +107,6 @@ struct BreathingView: View {
     
     private var breathingAnimationView: some View {
         ZStack {
-            // 外圈装饰
             ForEach(0..<3, id: \.self) { index in
                 Circle()
                     .stroke(
@@ -124,9 +119,8 @@ struct BreathingView: View {
                     )
                     .frame(width: CGFloat(200 + index * 60), height: CGFloat(200 + index * 60))
                     .scaleEffect(store.hasStarted ? store.breathingScale * (1.0 - CGFloat(index) * 0.1) : 1.0)
+                    .animation(.easeInOut(duration: 4.5), value: store.breathingScale)
             }
-            
-            // 主呼吸圆圈
             Circle()
                 .fill(
                     RadialGradient(
@@ -146,18 +140,19 @@ struct BreathingView: View {
                 )
                 .frame(width: 160, height: 160)
                 .scaleEffect(store.hasStarted ? store.breathingScale : 1.0)
+                .animation(.easeInOut(duration: 4.5), value: store.breathingScale)
                 .overlay(
                     Circle()
                         .stroke(
-                            store.isCompleted ? 
-                                Color.green.opacity(0.8) : 
-                                Color.white.opacity(0.6), 
+                            store.isCompleted ?
+                                Color.green.opacity(0.8) :
+                                Color.white.opacity(0.6),
                             lineWidth: 2
                         )
                         .scaleEffect(store.hasStarted ? store.breathingScale : 1.0)
+                        .animation(.easeInOut(duration: 4.5), value: store.breathingScale)
                 )
                 .overlay(
-                    // 简化的完成效果
                     Group {
                         if store.isCompleted {
                             Circle()
@@ -177,13 +172,11 @@ struct BreathingView: View {
                     }
                 )
             
-            // 中心文字
             VStack(spacing: 8) {
                 Text(store.breathingText)
                     .font(.title2)
                     .fontWeight(.medium)
                     .foregroundStyle(.white)
-
             }
         }
     }
@@ -201,14 +194,13 @@ struct BreathingView: View {
                     )
                 }
             } else {
-                // 占位符，保持高度一致，避免跳动
                 Rectangle()
                     .fill(Color.clear)
                     .frame(height: 56)
             }
         }
         .padding(.horizontal, 40)
-        .frame(minHeight: 80) // 固定最小高度
+        .frame(minHeight: 80)
     }
     
     private func buttonStyle(colors: [Color], icon: String, text: String) -> some View {
@@ -247,7 +239,7 @@ struct BreathingView: View {
 }
 
 #Preview {
-    BreathingView { 
+    BreathingView {
         print("Breathing completed")
     }
 }
