@@ -73,11 +73,11 @@ enum TarotSpreadType: String, CaseIterable, Identifiable {
     
     var additionalInfo: String {
         switch self {
-        case .single: return "探索当下的能量"
-        case .threeCard: return "过去、现在、未来"
-        case .relationship: return "两人当前的互动模式"
-        case .celticCross: return "深入探索人生议题"
-        case .yearlyReading: return "十二个月的运势指引"
+        case .single: return "抽取1张牌，探索当下"
+        case .threeCard: return "抽取3张牌，了解过去现在未来"
+        case .relationship: return "抽取5张牌，了解情感关系"
+        case .celticCross: return "抽取10张牌，深入探索议题"
+        case .yearlyReading: return "抽取12张牌，了解全年运势"
         }
     }
 }

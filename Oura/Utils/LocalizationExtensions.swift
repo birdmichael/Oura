@@ -21,6 +21,15 @@ enum LocalizationKeys {
     enum App {
         static let title = "app.title"
         static let subtitle = "app.subtitle"
+        static let tagline = "app.tagline"
+        static let privacy = "app.privacy"
+        static let wisdom = "app.wisdom"
+    }
+    
+    enum Mystical {
+        static let intuition = "mystical.intuition"
+        static let insight = "mystical.insight"
+        static let emotion = "mystical.emotion"
     }
     
     enum Breathing {

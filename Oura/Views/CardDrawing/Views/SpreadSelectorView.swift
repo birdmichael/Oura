@@ -53,7 +53,7 @@ struct SpreadTypeCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 12) {
-                // 牌阵图标
+
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(.ultraThinMaterial)

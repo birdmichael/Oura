@@ -56,6 +56,57 @@
         }
       }
     },
+    "app.tagline" : {
+      "comment" : "App tagline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let Tarot guide your life direction"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让塔罗为你指引人生方向"
+          }
+        }
+      }
+    },
+    "app.privacy" : {
+      "comment" : "Privacy security message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Secure · Anonymous AI"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私安全 · 匿名AI"
+          }
+        }
+      }
+    },
+    "app.wisdom" : {
+      "comment" : "Ancient wisdom message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfect fusion of ancient wisdom and modern technology"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "古老智慧与现代科技的完美融合"
+          }
+        }
+      }
+    },
     "breathing.button.continue" : {
       "comment" : "Continue after breathing",
       "extractionState" : "stale",
@@ -740,6 +791,63 @@
         }
       }
     },
+    "mystical.emotion" : {
+      "comment" : "Mystical emotion",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emotion"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情感"
+          }
+        }
+      }
+    },
+    "mystical.insight" : {
+      "comment" : "Mystical insight",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insight"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "洞察"
+          }
+        }
+      }
+    },
+    "mystical.intuition" : {
+      "comment" : "Mystical intuition",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intuition"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "直觉"
+          }
+        }
+      }
+    },
+    "Oura" : {
+
+    },
     "preparation.button.start" : {
       "comment" : "Start divination button",
       "extractionState" : "stale",
@@ -1245,7 +1353,21 @@
       }
     },
     "spread.celtic_cross" : {
-
+      "comment" : "Celtic cross spread title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Celtic Cross"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "凯尔特十字"
+          }
+        }
+      }
     },
     "spread.celtic_cross.title" : {
       "comment" : "Celtic cross spread title",
@@ -1266,7 +1388,21 @@
       }
     },
     "spread.relationship" : {
-
+      "comment" : "Relationship spread title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emotional Relationship"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情感关系"
+          }
+        }
+      }
     },
     "spread.relationship.title" : {
       "comment" : "Relationship spread title",
@@ -1287,7 +1423,21 @@
       }
     },
     "spread.single" : {
-
+      "comment" : "Single card spread title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Single Card"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单张卡牌"
+          }
+        }
+      }
     },
     "spread.single.title" : {
       "comment" : "Single card spread title",
@@ -1308,7 +1458,21 @@
       }
     },
     "spread.three_card" : {
-
+      "comment" : "Three card spread title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Three Cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三张卡牌"
+          }
+        }
+      }
     },
     "spread.three_card.title" : {
       "comment" : "Three card spread title",
@@ -1329,7 +1493,21 @@
       }
     },
     "spread.yearly_reading" : {
-
+      "comment" : "Yearly reading spread title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yearly Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年度运势"
+          }
+        }
+      }
     },
     "spread.yearly_reading.title" : {
       "comment" : "Yearly reading spread title",

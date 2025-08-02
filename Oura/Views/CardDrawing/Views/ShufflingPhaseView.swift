@@ -11,14 +11,14 @@ struct ShufflingPhaseView: View {
         VStack(spacing: 40) {
             Spacer()
             
-            // 标题 - 固定高度避免跳动
+
             VStack(spacing: 16) {
                 Text(localized: LocalizationKeys.Shuffle.meditationTitle)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
                 
-                // 固定高度的内容区域
+
                 VStack(spacing: 12) {
                     if !hasStarted {
                         Text(localized: LocalizationKeys.Shuffle.thinkQuestion)
@@ -46,7 +46,7 @@ struct ShufflingPhaseView: View {
                             .foregroundStyle(.white.opacity(0.7))
                             .multilineTextAlignment(.center)
                         
-                        // 占位文本保持高度一致
+
                         Text("")
                             .font(.caption)
                             .foregroundStyle(.clear)
@@ -61,19 +61,19 @@ struct ShufflingPhaseView: View {
                             .foregroundStyle(.green.opacity(0.7))
                             .multilineTextAlignment(.center)
                         
-                        // 占位文本保持高度一致
+
                         Text("")
                             .font(.caption)
                             .foregroundStyle(.clear)
                     }
                 }
-                .frame(height: 120) // 固定高度
+                .frame(height: 120)
                 .padding(.horizontal, 30)
             }
             
             Spacer()
             
-            // 洗牌卡牌区域（不要方框）
+
             GeometryReader { geometry in
                 ZStack {
                     ForEach(shuffleStore.cards) { card in
@@ -98,16 +98,16 @@ struct ShufflingPhaseView: View {
             
             Spacer()
             
-            // 控制按钮 - 使用透明度避免跳动
+
             VStack(spacing: 8) {
-                // 开始按钮
+
                 Button(action: {
                     if !hasStarted {
                         hasStarted = true
                         shuffleStore.startShuffle()
                     } else if shuffleStore.isShuffling {
                         shuffleStore.stopShuffle()
-                        // 延迟1秒后自动跳转
+
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             onComplete()
                         }
@@ -139,12 +139,12 @@ struct ShufflingPhaseView: View {
                     }
                 }
                 .scaleEffect(shuffleStore.isShuffling ? 0.95 : 1.0)
-                .opacity(hasStarted || !hasStarted ? 1.0 : 0.5) // 始终保持可见
+                .opacity(hasStarted || !hasStarted ? 1.0 : 0.5)
                 .animation(.easeInOut(duration: 0.3), value: shuffleStore.isShuffling)
                 .animation(.easeInOut(duration: 0.3), value: hasStarted)
                 .disabled(hasStarted && !shuffleStore.isShuffling && shuffleStore.cards.isEmpty)
             }
-            .frame(height: 120) // 固定高度，避免跳动
+            .frame(height: 120)
             
             Spacer()
         }

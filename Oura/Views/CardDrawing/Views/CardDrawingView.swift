@@ -86,29 +86,57 @@ struct CardDrawingView: View {
         )
     }
     
-    // MARK: - 各阶段视图
+
     
     private var preparationPhaseView: some View {
         VStack(spacing: 0) {
             titleSection
-            Spacer()
+            
+            Spacer(minLength: 40)
+            
             spreadInfoSection
-            Spacer()
+            
+            Spacer(minLength: 30)
+            
+            mysticalElementsSection
+            
+            Spacer(minLength: 40)
+            
             startButtonSection
+            
+            Spacer(minLength: 60)
         }
     }
     
     private var titleSection: some View {
-        VStack(spacing: 12) {
-            Text(localized: LocalizationKeys.App.title)
-                .font(.system(size: 32, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
+        VStack(spacing: 20) {
+            HStack(spacing: 8) {
+                Image(systemName: "sparkles")
+                    .font(.title2)
+                    .foregroundStyle(.orange)
+                
+                Text("Oura")
+                    .font(.system(size: 36, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white)
+                
+                Image(systemName: "sparkles")
+                    .font(.title2)
+                    .foregroundStyle(.orange)
+            }
             
-            Text(localized: LocalizationKeys.App.subtitle)
-                .font(.title3)
-                .foregroundStyle(Color.orange.opacity(0.9))
-                .fontWeight(.medium)
+            VStack(spacing: 8) {
+                Text(localized: LocalizationKeys.App.subtitle)
+                    .font(.title3)
+                    .foregroundStyle(Color.orange.opacity(0.9))
+                    .fontWeight(.medium)
+                
+                Text(localized: LocalizationKeys.App.tagline)
+                    .font(.body)
+                    .foregroundStyle(.white.opacity(0.7))
+                    .multilineTextAlignment(.center)
+            }
         }
+        .padding(.top, 20)
     }
     
     private var spreadInfoSection: some View {
@@ -119,85 +147,134 @@ struct CardDrawingView: View {
     }
     
     private var spreadInfoCard: some View {
-        RoundedRectangle(cornerRadius: 20)
+        RoundedRectangle(cornerRadius: 16)
             .fill(Color.white.opacity(0.05))
             .overlay(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.white.opacity(0.1), lineWidth: 1)
             )
-            .frame(height: 120)
+            .frame(height: 60)
             .overlay(
                 spreadInfoContent
                     .padding(.horizontal, 20)
-                    .padding(.vertical, 16)
             )
     }
     
     private var spreadInfoContent: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Image(systemName: spreadIcon)
-                    .font(.title2)
-                    .foregroundStyle(.orange)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(store.currentSpread.title)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                    
-                    Text(store.currentSpread.subtitle)
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.7))
-                }
-                
-                Spacer()
-                
-                Button(LocalizationKeys.Spread.Button.change.localized) {
-                    showingSpreadSelector = true
-                }
-                .font(.caption)
+        HStack(spacing: 12) {
+            Image(systemName: spreadIcon)
+                .font(.title2)
                 .foregroundStyle(.orange)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Color.orange.opacity(0.1))
-                .clipShape(Capsule())
-            }
             
-            Text(store.currentSpread.additionalInfo)
-                .font(.caption)
-                .foregroundStyle(.white.opacity(0.6))
-                .multilineTextAlignment(.center)
-                .frame(maxWidth: .infinity)
+            Text(store.currentSpread.title)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white)
+            
+            Spacer()
+            
+            Button(LocalizationKeys.Spread.Button.change.localized) {
+                showingSpreadSelector = true
+            }
+            .font(.caption)
+            .fontWeight(.medium)
+            .foregroundStyle(.orange)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(Color.orange.opacity(0.15))
+            .clipShape(Capsule())
         }
     }
     
     private var startButtonSection: some View {
-        Button(action: {
-            currentAppPhase = .breathing
-            store.currentPhase = .breathing
-        }) {
-            Text(localized: LocalizationKeys.Preparation.Button.start)
-                .font(.title3)
-                .fontWeight(.semibold)
+        VStack(spacing: 16) {
+            Button(action: {
+                currentAppPhase = .breathing
+                store.currentPhase = .breathing
+            }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "sparkles")
+                        .font(.title3)
+                    
+                    Text(localized: LocalizationKeys.Preparation.Button.start)
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                    
+                    Image(systemName: "arrow.right")
+                        .font(.title3)
+                }
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 56)
+                .frame(height: 64)
                 .background(
-                    LinearGradient(
-                        colors: [Color.orange, Color.orange.opacity(0.8)],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.orange, Color.red.opacity(0.8)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                        
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    }
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .shadow(color: .orange.opacity(0.3), radius: 15, x: 0, y: 8)
+            }
+            .padding(.horizontal, 40)
+            
+            HStack(spacing: 4) {
+                Image(systemName: "lock.fill")
+                    .font(.caption)
+                Text(localized: LocalizationKeys.App.privacy)
+                    .font(.caption)
+            }
+            .foregroundStyle(.white.opacity(0.5))
         }
-        .padding(.horizontal, 40)
+    }
+    
+    private var mysticalElementsSection: some View {
+        VStack(spacing: 20) {
+            HStack(spacing: 30) {
+                mysticalSymbol("moon.stars.fill", LocalizationKeys.Mystical.intuition)
+                mysticalSymbol("eye.fill", LocalizationKeys.Mystical.insight)
+                mysticalSymbol("heart.fill", LocalizationKeys.Mystical.emotion)
+            }
+            
+            Text(localized: LocalizationKeys.App.wisdom)
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.6))
+                .multilineTextAlignment(.center)
+        }
+    }
+    
+    private func mysticalSymbol(_ systemName: String, _ titleKey: String) -> some View {
+        VStack(spacing: 8) {
+            ZStack {
+                Circle()
+                    .fill(Color.white.opacity(0.05))
+                    .frame(width: 50, height: 50)
+                
+                Circle()
+                    .stroke(Color.orange.opacity(0.3), lineWidth: 1)
+                    .frame(width: 50, height: 50)
+                
+                Image(systemName: systemName)
+                    .font(.title3)
+                    .foregroundStyle(.orange)
+            }
+            
+            Text(LocalizedStringKey(titleKey))
+                .font(.caption)
+                .foregroundStyle(.white.opacity(0.7))
+        }
     }
     
     private var cardPreviewSection: some View {
         let spreadType = (store.currentSpread as? UniversalTarotSpread)?.spreadType ?? .relationship
-        let previewCount = min(spreadType.cardCount, 5) // 最多预览5张
+        let previewCount = min(spreadType.cardCount, 5)
         
         return HStack(spacing: -20) {
             ForEach(0..<previewCount, id: \.self) { index in
@@ -245,7 +322,6 @@ struct CardDrawingView: View {
     }
     
     private func cardsContainerSection(in size: CGSize) -> some View {
-        // 移除方框，只显示卡牌
         cardsSection(in: size)
             .frame(height: layoutHeight(for: size, spreadType: currentSpreadType))
     }
@@ -278,14 +354,14 @@ struct CardDrawingView: View {
     private var shufflingPhaseView: some View {
         ShufflingPhaseView { 
             currentAppPhase = .cardSelection
-            store.currentPhase = .cardSelection // 同步更新store的阶段
+            store.currentPhase = .cardSelection
         }
     }
     
     private var cardSelectionPhaseView: some View {
         GeometryReader { geometry in
             VStack(spacing: 20) {
-                // 返回按钮
+
                 HStack {
                     Button(action: {
                         currentAppPhase = .preparation
@@ -302,7 +378,7 @@ struct CardDrawingView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 20)
                 
-                // 选牌标题
+
                 VStack(spacing: 8) {
                     Text(localized: LocalizationKeys.CardSelection.title)
                         .font(.title2)
@@ -317,12 +393,12 @@ struct CardDrawingView: View {
                 
                 Spacer()
                 
-                // 卡牌区域
+
                 cardsContainerSection(in: geometry.size)
                 
                 Spacer()
                 
-                // 完成按钮 - 使用固定高度和透明度避免跳动
+
                 VStack {
                     Button(action: {
                         currentAppPhase = .completed
@@ -364,7 +440,6 @@ struct CardDrawingView: View {
                     currentAppPhase = .preparation
                 }
             } else {
-                // 加载状态
                 VStack {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
@@ -419,18 +494,18 @@ struct CardDrawingView: View {
         }
     }
     
-    // MARK: - 各阶段内容视图
+
     
     private func preparationPhaseContent(in size: CGSize) -> some View {
         VStack(spacing: 30) {
-            // 标题 - 固定高度避免跳动
+
             VStack(spacing: 16) {
                 Text(localized: LocalizationKeys.Preparation.title)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
                 
-                // 固定高度的内容区域
+
                 VStack(spacing: 12) {
                     Text(localized: LocalizationKeys.Preparation.calmMind)
                         .font(.title3)
@@ -448,7 +523,7 @@ struct CardDrawingView: View {
                         .foregroundStyle(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
                 }
-                .frame(height: 120) // 固定高度
+                .frame(height: 120)
                 .padding(.horizontal, 30)
             }
             
@@ -460,14 +535,14 @@ struct CardDrawingView: View {
     
     private func cardSelectionPhaseContent(in size: CGSize) -> some View {
         VStack(spacing: 20) {
-            // 标题 - 固定高度避免跳动
+
             VStack(spacing: 16) {
                 Text(localized: LocalizationKeys.CardSelection.title)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
                 
-                // 固定高度的内容区域
+
                 VStack(spacing: 12) {
                     let remaining = store.currentSpread.cards.count - store.revealedCount
                     if remaining > 0 {
@@ -504,7 +579,7 @@ struct CardDrawingView: View {
                             .multilineTextAlignment(.center)
                     }
                 }
-                .frame(height: 120) // 固定高度
+                .frame(height: 120)
                 .padding(.horizontal, 30)
             }
             
@@ -626,7 +701,7 @@ struct CardDrawingView: View {
         }
     }
     
-    // MARK: - Helper Methods
+
     
     private func handleCardTap(at index: Int) {
         switch store.currentPhase {
@@ -659,7 +734,7 @@ struct CardDrawingView: View {
         }
     }
     
-    // MARK: - Computed Properties
+
     
     private var mainButtonTitle: String {
         switch store.currentPhase {
@@ -740,6 +815,6 @@ struct CardDrawingView: View {
 
 #Preview {
     CardDrawingView()
-    // 英文显示
+
     .environment(\.locale, .init(identifier: "en"))
 }

@@ -53,7 +53,7 @@ class CardDrawingStore: ObservableObject {
             if revealedCount < currentSpread.cards.count {
                 nextCardIndex = revealedCount
             } else {
-                // 生成塔罗解读
+
                 generateTarotReading()
                 currentPhase = .completed
             }
@@ -103,7 +103,7 @@ class CardDrawingStore: ObservableObject {
     }
     
     func switchToSpread<T: TarotSpread>(_ spreadType: T.Type) {
-        // 保持向后兼容
+
         switchToSpread(.relationship)
     }
     
@@ -141,7 +141,7 @@ class CardDrawingStore: ObservableObject {
         }
     }
     
-    // MARK: - 连接相关方法
+
     
     func startBreathingAnimation() {
         isBreathing = true
@@ -152,7 +152,7 @@ class CardDrawingStore: ObservableObject {
                 let breathingCycle = sin(time * 0.8) * 0.3 + 1.0
                 self.breathingScale = CGFloat(breathingCycle)
                 
-                // 每个呼吸周期提供轻微震动
+
                 if Int(time * 0.8) % 4 == 0 && Int(time * 100) % 40 == 0 {
                     self.hapticFeedback.impactOccurred()
                 }
@@ -178,9 +178,9 @@ class CardDrawingStore: ObservableObject {
             Task { @MainActor in
                 guard let self = self, self.isConnecting else { return }
                 
-                self.connectionProgress += 0.02 // 5秒完成连接
+                self.connectionProgress += 0.02
                 
-                // 连接过程中的震动反馈
+
                 if Int(self.connectionProgress * 100) % 25 == 0 {
                     self.hapticFeedback.impactOccurred()
                 }
@@ -203,7 +203,7 @@ class CardDrawingStore: ObservableObject {
         stopConnectionProcess()
         stopBreathingAnimation()
         
-        // 连接完成的强烈震动反馈
+
         let heavyHaptic = UIImpactFeedbackGenerator(style: .heavy)
         heavyHaptic.impactOccurred()
         
@@ -212,7 +212,7 @@ class CardDrawingStore: ObservableObject {
         }
     }
     
-    // MARK: - 塔罗解读生成
+
     
     private func generateTarotReading() {
         let revealedCards = currentSpread.cards.compactMap { $0 as? TarotCardModel }.filter { $0.isRevealed }

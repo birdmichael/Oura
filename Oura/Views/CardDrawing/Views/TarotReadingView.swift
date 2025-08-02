@@ -7,7 +7,7 @@ struct TarotReadingView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 30) {
-                // 标题
+
                 VStack(spacing: 12) {
                     Text(reading.title)
                         .font(.largeTitle)
@@ -22,14 +22,14 @@ struct TarotReadingView: View {
                 }
                 .padding(.top, 40)
                 
-                // 解读引言
+
                 Text("你抽出的这些牌，我将按照经典的牌阵进行排列，为你揭示内心的智慧和指引。")
                     .font(.body)
                     .foregroundStyle(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
                 
-                // 卡牌解读列表
+
                 LazyVStack(spacing: 25) {
                     ForEach(Array(reading.cardReadings.enumerated()), id: \.offset) { index, cardReading in
                         CardReadingRow(
@@ -40,7 +40,7 @@ struct TarotReadingView: View {
                 }
                 .padding(.horizontal, 20)
                 
-                // 总结部分
+
                 VStack(spacing: 20) {
                     Text(localized: LocalizationKeys.Reading.summary)
                         .font(.title2)
@@ -72,7 +72,7 @@ struct TarotReadingView: View {
                 }
                 .padding(.vertical, 20)
                 
-                // 重新开始按钮
+
                 Button(action: onRestart) {
                     HStack(spacing: 12) {
                         Image(systemName: "arrow.counterclockwise")
@@ -120,7 +120,7 @@ struct CardReadingRow: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            // 位置标题
+
             HStack {
                 Text("\(index). \(cardReading.position.name)：")
                     .font(.title3)
@@ -136,7 +136,7 @@ struct CardReadingRow: View {
             }
             
             HStack(alignment: .top, spacing: 20) {
-                // 卡牌图片
+
                 VStack {
                     TarotCardView(
                         cardType: cardReading.card.cardType,
@@ -146,7 +146,7 @@ struct CardReadingRow: View {
                     .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
                 }
                 
-                // 解读文本
+
                 VStack(alignment: .leading, spacing: 8) {
                     Text(cardReading.interpretation)
                         .font(.body)
@@ -158,7 +158,7 @@ struct CardReadingRow: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             
-            // 分割线
+
             if index < 5 {
                 Divider()
                     .background(Color.white.opacity(0.2))
@@ -176,7 +176,7 @@ struct CardReadingRow: View {
 }
 
 #Preview {
-    // 创建示例数据用于预览
+
     let sampleCards = [
         TarotCardModel(cardType: .majorArcana(.fool)),
         TarotCardModel(cardType: .majorArcana(.magician)),
