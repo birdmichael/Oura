@@ -10,39 +10,44 @@ private struct Particle: Identifiable {
     let randomAnimationOffset: Double = .random(in: 0...20)
 }
 
-private struct ParticleView: View {
-    let particle: Particle
+private struct ParticleGlowView: View {
     @ObservedObject var store: BreathingStore
+    let particles: [Particle]
     let timelineDate: Date
-
-    private var gatheredProgress: Double {
-        store.gatheredProgress
-    }
+    let center: CGPoint
 
     var body: some View {
-        let currentRadius: CGFloat
-        var currentAngle = particle.randomAngle
-        
-        let time = timelineDate.timeIntervalSince1970
-        let shimmer = sin(time * 2 * .pi / 2 + particle.randomAnimationOffset * .pi)
-        let dynamicOpacity = particle.initialOpacity * (0.7 + shimmer * 0.3)
-        let dynamicSize = particle.size * (0.9 + shimmer * 0.1)
+        Canvas { context, size in
+            let gatheredProgress = store.gatheredProgress
+            let time = timelineDate.timeIntervalSince1970
 
-        if store.currentPhase == .hold {
-            currentRadius = particle.holdRadius
-            currentAngle += .degrees(time.truncatingRemainder(dividingBy: store.holdDuration) / store.holdDuration * 360)
-        } else {
-            currentRadius = particle.holdRadius + (particle.randomMaxRadius - particle.holdRadius) * (1 - gatheredProgress)
+            for particle in particles {
+                var currentRadius: CGFloat
+                var currentAngle = particle.randomAngle
+                
+                let shimmer = sin(time * .pi + particle.randomAnimationOffset * .pi)
+                let dynamicOpacity = particle.initialOpacity * (0.7 + shimmer * 0.3)
+                let dynamicSize = particle.size * (0.9 + shimmer * 0.1)
+
+                if store.currentPhase == .hold {
+                    currentRadius = particle.holdRadius
+                    currentAngle += .degrees(time.truncatingRemainder(dividingBy: store.holdDuration) / store.holdDuration * 360)
+                } else {
+                    currentRadius = particle.holdRadius + (particle.randomMaxRadius - particle.holdRadius) * (1 - gatheredProgress)
+                }
+                
+                let x = center.x + cos(currentAngle.radians) * currentRadius
+                let y = center.y + sin(currentAngle.radians) * currentRadius
+                
+                let gradient = Gradient(colors: [Color.white.opacity(dynamicOpacity * 0.8), Color.white.opacity(0)])
+                
+                let particleRect = CGRect(x: x - dynamicSize / 2, y: y - dynamicSize / 2, width: dynamicSize, height: dynamicSize)
+                context.fill(Ellipse().path(in: particleRect), with: .radialGradient(gradient, center: CGPoint(x: x, y: y), startRadius: 0, endRadius: dynamicSize / 2))
+            }
         }
-
-        return Circle()
-            .fill(Color.white.opacity(dynamicOpacity))
-            .frame(width: dynamicSize, height: dynamicSize)
-            .blur(radius: dynamicSize * 0.2)
-            .offset(x: cos(currentAngle.radians) * currentRadius, y: sin(currentAngle.radians) * currentRadius)
-            .opacity(store.hasStarted || store.isCompleted ? 1.0 : 0.0)
-            .animation(store.currentAnimation, value: gatheredProgress)
-            .animation(.linear, value: currentAngle)
+        .ignoresSafeArea()
+        .opacity(store.hasStarted || store.isCompleted ? 1.0 : 0.0)
+        .animation(store.currentAnimation, value: store.gatheredProgress)
     }
 }
 
@@ -51,6 +56,7 @@ struct BreathingView: View {
     
     @StateObject private var store: BreathingStore
     @State private var particles: [Particle] = []
+    @State private var animationCenter: CGPoint = .zero
     
     init(onComplete: @escaping () -> Void) {
         self.onComplete = onComplete
@@ -58,18 +64,27 @@ struct BreathingView: View {
     }
     
     var body: some View {
-        ZStack {
-            backgroundGradient.ignoresSafeArea()
-            
-            VStack(spacing: 0) {
-                headerText
-                Spacer()
-                breathingAnimationView
-                Spacer()
-                bottomSection
+        TimelineView(.animation) { timeline in
+            ZStack {
+                backgroundGradient.ignoresSafeArea()
+                
+                ParticleGlowView(
+                    store: store,
+                    particles: particles,
+                    timelineDate: timeline.date,
+                    center: animationCenter
+                )
+                
+                VStack(spacing: 0) {
+                    headerText
+                    Spacer()
+                    breathingAnimationView(timeline: timeline)
+                    Spacer()
+                    bottomSection
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 16)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 16)
         }
         .onAppear(perform: setupParticles)
         .onDisappear(perform: store.stopBreathing)
@@ -77,6 +92,13 @@ struct BreathingView: View {
     
     private func setupParticles() {
         particles = (0..<40).map { _ in Particle() }
+    }
+    
+    private func updateCenter(for geometry: GeometryProxy) {
+        let frame = geometry.frame(in: .global)
+        if frame.width > 0 && frame.height > 0 {
+            self.animationCenter = CGPoint(x: frame.midX, y: frame.midY)
+        }
     }
     
     private var headerText: some View {
@@ -116,24 +138,27 @@ struct BreathingView: View {
         }
     }
     
-    private var breathingAnimationView: some View {
-        TimelineView(.animation) { timeline in
-            ZStack {
-                let gatheredProgress = store.gatheredProgress
-                
-                Group {
-                    Circle().fill(Color.blue.opacity(0.2)).frame(width: 250, height: 250).blur(radius: 90)
-                        .scaleEffect(0.7 + (1 - gatheredProgress) * 0.7)
-                    nebulaView(color: .purple, rotation: Angle(degrees: timeline.date.timeIntervalSince1970 * 3), scale: 1.3, gatheredProgress: gatheredProgress)
-                    nebulaView(color: .blue, rotation: Angle(degrees: -timeline.date.timeIntervalSince1970 * 2.1), scale: 1.1, gatheredProgress: gatheredProgress)
-                }
-                .opacity(store.isCompleted ? 0.5 : 1.0)
-                
-                particleGlowView(gatheredProgress: gatheredProgress, timelineDate: timeline.date)
-                
-                centralTextView
+    private func breathingAnimationView(timeline: TimelineViewDefaultContext) -> some View {
+        ZStack {
+            let gatheredProgress = store.gatheredProgress
+            
+            Group {
+                Circle().fill(Color.blue.opacity(0.2)).frame(width: 250, height: 250).blur(radius: 90)
+                    .scaleEffect(0.7 + (1 - gatheredProgress) * 0.7)
+                nebulaView(color: .purple, rotation: Angle(degrees: timeline.date.timeIntervalSince1970 * 3), scale: 1.3, gatheredProgress: gatheredProgress)
+                nebulaView(color: .blue, rotation: Angle(degrees: -timeline.date.timeIntervalSince1970 * 2.1), scale: 1.1, gatheredProgress: gatheredProgress)
             }
+            .opacity(store.isCompleted ? 0.5 : 1.0)
+            
+            centralTextView
         }
+        .background(
+            GeometryReader { geometry in
+                Color.clear
+                    .onAppear { updateCenter(for: geometry) }
+                    .onChange(of: geometry.size) { updateCenter(for: geometry) }
+            }
+        )
     }
     
     private func nebulaView(color: Color, rotation: Angle, scale: CGFloat, gatheredProgress: Double) -> some View {
@@ -149,14 +174,6 @@ struct BreathingView: View {
         .scaleEffect(scale * (0.7 + (1 - gatheredProgress) * 0.6))
         .opacity(0.5 + (1 - gatheredProgress) * 0.5)
         .animation(store.currentAnimation, value: gatheredProgress)
-    }
-    
-    private func particleGlowView(gatheredProgress: Double, timelineDate: Date) -> some View {
-        ZStack {
-            ForEach(particles) { particle in
-                ParticleView(particle: particle, store: store, timelineDate: timelineDate)
-            }
-        }
     }
     
     private var centralTextView: some View {
