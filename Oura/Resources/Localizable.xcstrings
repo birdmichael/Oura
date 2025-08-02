@@ -581,6 +581,24 @@
         }
       }
     },
+    "common.button.skip" : {
+      "comment" : "Skip button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Skip"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "跳过"
+          }
+        }
+      }
+    },
     "completed.instruction" : {
       "comment" : "Click cards to view details",
       "extractionState" : "stale",
@@ -1658,6 +1676,17 @@
     },
     "请等待..." : {
 
+    },
+    "跳过" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip"
+          }
+        }
+      }
     },
     "选择牌阵" : {
 

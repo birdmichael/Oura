@@ -159,6 +159,7 @@ enum LocalizationKeys {
             static let cancel = "common.button.cancel"
             static let continueButton = "common.button.continue"
             static let close = "common.button.close"
+            static let skip = "common.button.skip"
         }
     }
     

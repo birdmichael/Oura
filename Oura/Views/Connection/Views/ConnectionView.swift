@@ -1,228 +1,173 @@
 import SwiftUI
 import UIKit
 
+private struct OfferingCard: Identifiable {
+    let id: Int
+    let initialRotation: Angle
+    let initialOffset: CGSize
+    var isCharged: Bool = false
+    var isReleased: Bool = false
+    var releaseAngle: Angle = .degrees(.random(in: -90...90))
+    var releaseOffset: CGSize = .zero
+}
+
+private struct OfferingCardView: View {
+    @Binding var card: OfferingCard
+    
+    @State private var continuousShake: Angle = .zero
+    
+    var body: some View {
+        TarotCardView(cardType: .majorArcana(.fool), isRevealed: false, size: CGSize(width: 80, height: 130))
+            .rotationEffect(card.initialRotation)
+            .offset(card.initialOffset)
+            .shadow(color: card.isCharged ? .yellow.opacity(0.8) : .black.opacity(0.5), radius: card.isCharged ? 20 : 5)
+            .rotationEffect(continuousShake)
+            .offset(card.isReleased ? card.releaseOffset : .zero)
+            .rotationEffect(card.isReleased ? card.releaseAngle : .zero)
+            .zIndex(card.isCharged ? 100 : Double(card.id))
+            .animation(.spring(response: 0.5, dampingFraction: 0.6), value: card.isReleased)
+            .onChange(of: card.isCharged) { _, isNowCharged in
+                if isNowCharged {
+                    let haptic = UIImpactFeedbackGenerator(style: .soft)
+                    haptic.impactOccurred(intensity: 0.7)
+                    withAnimation(.linear(duration: 0.05).repeatForever(autoreverses: true)) {
+                        continuousShake = .degrees(3)
+                    }
+                } else {
+                    withAnimation(.spring()) {
+                        continuousShake = .zero
+                    }
+                }
+            }
+    }
+}
+
 struct ConnectionView: View {
     let onComplete: () -> Void
     
     @StateObject private var store = ConnectionStore()
+    @State private var cards: [OfferingCard] = []
+    @State private var gestureTimer: Timer?
+    @State private var cardReleaseOrder: [Int] = []
     
     var body: some View {
         ZStack {
-            backgroundGradient
-                .ignoresSafeArea()
+            backgroundGradient.ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // 顶部文字区域 - 固定位置 
-                VStack(spacing: 16) {
-                    Text(localized: LocalizationKeys.Connection.title)
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                    
-                    // 固定高度的内容区域
-                    VStack(spacing: 12) {
-                        if !store.isConnecting {
-                            Text(localized: LocalizationKeys.Connection.instruction)
-                                .font(.title3)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.white.opacity(0.9))
-                                .multilineTextAlignment(.center)
-                            
-                            Text(localized: LocalizationKeys.Connection.energyText)
-                                .font(.body)
-                                .foregroundStyle(.white.opacity(0.7))
-                                .multilineTextAlignment(.center)
-                            
-                            Text(localized: LocalizationKeys.Connection.longPressStart)
-                                .font(.caption)
-                                .foregroundStyle(.white.opacity(0.6))
-                                .multilineTextAlignment(.center)
-                        } else {
-                            Text(localized: LocalizationKeys.Connection.connectingCards)
-                                .font(.title3)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.orange)
-                                .multilineTextAlignment(.center)
-                            
-                            Text(localized: LocalizationKeys.Connection.feelEnergy)
-                                .font(.body)
-                                .foregroundStyle(.orange.opacity(0.8))
-                                .multilineTextAlignment(.center)
-                            
-                            Text(localized: LocalizationKeys.Connection.keepPressing)
-                                .font(.caption)
-                                .foregroundStyle(.orange.opacity(0.7))
-                                .multilineTextAlignment(.center)
-                        }
-                    }
-                    .frame(height: 120) // 固定高度
-                    .padding(.horizontal, 30)
-                }
-                .padding(.top, 60)
-                
+                headerText
+                    .zIndex(100)
                 Spacer()
-                
-                // 卡牌连接区域
-                cardConnectionArea
-                
-                Spacer()
-                
-                // 底部状态和进度
-                statusSection
-                
-                Spacer(minLength: 40)
+                connectionArea
+                statusText.padding(.top, 20)
             }
             .padding(.horizontal, 20)
-            .padding(.vertical, 20)
+            .padding(.bottom, 30)
         }
-        .onAppear {
-            store.startPulseAnimation()
-        }
-        .onDisappear {
-            store.stopAllAnimations()
-        }
-    }
-    
-
-    
-    private var cardConnectionArea: some View {
-        ZStack {
-            // 背景光晕效果 - 使用固定容器避免抖动
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: store.isConnecting ? [.orange.opacity(0.3), .clear] : [.clear, .clear],
-                        center: .center,
-                        startRadius: 0,
-                        endRadius: 200
-                    )
-                )
-                .frame(width: 400, height: 400)
-                .scaleEffect(store.isConnecting ? 1.05 : 1.0)
-                .opacity(store.isConnecting ? 1.0 : 0.0)
-                .animation(.easeInOut(duration: 0.8), value: store.isConnecting)
+        .onAppear(perform: setupCards)
+        .onDisappear(perform: store.stopAllAnimations)
+        .onChange(of: store.releasedCardCount) { _, count in
+            guard count > 0 && count <= cardReleaseOrder.count else { return }
             
-            // 多张卡牌叠放效果
-            ForEach(0..<5, id: \.self) { index in
-                TarotCardView(
-                    cardType: .majorArcana(.fool),
-                    isRevealed: false,
-                    size: CGSize(width: 140 - CGFloat(index * 8), height: 210 - CGFloat(index * 12))
-                )
-                .scaleEffect(store.pulseScale - CGFloat(index) * 0.02)
-                .offset(
-                    x: CGFloat(index * 3) + (store.isConnecting ? CGFloat(index % 2 == 0 ? 1 : -1) : 0),
-                    y: CGFloat(index * -4) + (store.isConnecting ? CGFloat(index % 3 == 0 ? 1 : -1) : 0)
-                )
-                .rotationEffect(.degrees(Double(index) * 2 + (store.isConnecting ? Double(index % 2 == 0 ? 0.5 : -0.5) : 0)))
-                .opacity(1.0 - Double(index) * 0.15)
-                .shadow(
-                    color: store.isConnecting ? .orange.opacity(0.4) : .black.opacity(0.2),
-                    radius: store.isConnecting ? 12 : 4,
-                    x: 0,
-                    y: store.isConnecting ? 0 : 2
-                )
-            }
+            let cardIndexToRelease = cardReleaseOrder[count - 1]
             
-            // 最前面的主卡牌
-            TarotCardView(
-                cardType: .majorArcana(.fool),
-                isRevealed: false,
-                size: CGSize(width: 140, height: 210)
-            )
-            .scaleEffect(store.pulseScale)
-            .shadow(
-                color: store.isConnecting ? .orange.opacity(0.6) : .black.opacity(0.3),
-                radius: store.isConnecting ? 16 : 6,
-                x: 0,
-                y: store.isConnecting ? 0 : 3
-            )
-
-            .onLongPressGesture(minimumDuration: 0.1) {
-                // 长按完成
-            } onPressingChanged: { isPressing in
-                store.handlePressChange(isPressing, onComplete: onComplete)
-            }
-        }
-    }
-    
-    private var statusSection: some View {
-        VStack(spacing: 16) {
-            VStack(spacing: 8) {
-                if store.isConnecting {
-                    Text(localized: LocalizationKeys.Connection.Status.connecting, 
-                         arguments: Int(store.connectionProgress * 100))
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                } else {
-                    Text(localized: LocalizationKeys.Connection.Status.startInstruction)
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                }
+            cards[cardIndexToRelease].isCharged = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                guard cardIndexToRelease < cards.count, cards[cardIndexToRelease].isCharged else { return }
                 
-                // 固定高度的进度条区域，避免跳动
-                VStack(spacing: 8) {
-                    if store.isConnecting {
-                        progressBar
-                    } else {
-                        Rectangle()
-                            .fill(Color.clear)
-                            .frame(height: 8)
-                    }
-                    
-                    if store.isConnecting {
-                        Text(localized: LocalizationKeys.Connection.Status.holdInstruction)
-                            .font(.caption)
-                            .foregroundStyle(.white.opacity(0.7))
-                    } else {
-                        Text(localized: LocalizationKeys.Connection.Status.releaseWarning)
-                            .font(.caption)
-                            .foregroundStyle(.white.opacity(0.7))
-                    }
-                }
+                cards[cardIndexToRelease].isReleased = true
+                let angle = Angle.degrees(.random(in: 0...360))
+                cards[cardIndexToRelease].releaseOffset = CGSize(width: cos(angle.radians) * 1200, height: sin(angle.radians) * 1200)
             }
-            .padding(.horizontal, 40)
-            .frame(height: 100) // 固定高度，避免跳动
         }
     }
     
-    private var progressBar: some View {
-        RoundedRectangle(cornerRadius: 4)
-            .fill(Color.white.opacity(0.2))
-            .frame(height: 8)
-            .overlay(
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(
-                        LinearGradient(
-                            colors: [.orange, .yellow],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .scaleEffect(x: store.connectionProgress, y: 1.0, anchor: .leading)
-                    .animation(.easeInOut(duration: 0.1), value: store.connectionProgress)
+    private func setupCards() {
+        cards = (0..<ConnectionStore.totalCards).map { i in
+            OfferingCard(
+                id: i,
+                initialRotation: .degrees(.random(in: -45...45)),
+                initialOffset: CGSize(width: .random(in: -120...120), height: .random(in: -180...180))
             )
+        }
+        cardReleaseOrder = Array(0..<ConnectionStore.totalCards).shuffled()
+    }
+    
+    private func resetState() {
+        store.stopConnection()
+        setupCards()
+    }
+    
+    private var headerText: some View {
+        VStack(spacing: 16) {
+            Text(localized: LocalizationKeys.Connection.title)
+                .font(.largeTitle).fontWeight(.bold).foregroundStyle(.white)
+            
+            VStack(spacing: 12) {
+                if !store.isConnecting {
+                    Text(localized: LocalizationKeys.Connection.instruction)
+                        .font(.title3).fontWeight(.medium).foregroundStyle(.white.opacity(0.9))
+                    Text(localized: LocalizationKeys.Connection.energyText)
+                        .font(.body).foregroundStyle(.white.opacity(0.7))
+                } else {
+                    Text(localized: LocalizationKeys.Connection.connectingCards)
+                        .font(.title3).fontWeight(.medium).foregroundStyle(.orange)
+                    Text(localized: LocalizationKeys.Connection.feelEnergy)
+                        .font(.body).foregroundStyle(.orange.opacity(0.8))
+                }
+            }
+            .multilineTextAlignment(.center)
+            .frame(minHeight: 100)
+            .padding(.horizontal, 30)
+        }
+        .padding(.top, 40)
+    }
+    
+    private var connectionArea: some View {
+        ZStack {
+            ForEach($cards) { $card in
+                OfferingCardView(card: $card)
+            }
+        }
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    if gestureTimer == nil && !store.isConnecting {
+                        gestureTimer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+                            store.startConnection(onComplete: onComplete)
+                        }
+                    }
+                }
+                .onEnded { _ in
+                    gestureTimer?.invalidate()
+                    gestureTimer = nil
+                    if store.isConnecting {
+                        resetState()
+                    }
+                }
+        )
+        .frame(height: 400)
+    }
+    
+    private var statusText: some View {
+        VStack(spacing: 16) {
+            if !store.isConnecting {
+                Text(localized: LocalizationKeys.Connection.longPressStart)
+                    .font(.headline).foregroundStyle(.white.opacity(0.8))
+            }
+            
+            Text(store.isConnecting ? LocalizationKeys.Connection.keepPressing.localized : LocalizationKeys.Connection.Status.releaseWarning.localized)
+                .font(.caption).foregroundStyle(.white.opacity(0.7))
+        }
+        .frame(height: 60)
     }
     
     private var backgroundGradient: some View {
-        LinearGradient(
-            colors: [
-                Color(red: 0.1, green: 0.1, blue: 0.15),
-                Color(red: 0.15, green: 0.15, blue: 0.2),
-                Color(red: 0.2, green: 0.15, blue: 0.25)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        LinearGradient(colors: [Color(red: 0.1, green: 0.1, blue: 0.15), Color(red: 0.15, green: 0.15, blue: 0.2), Color(red: 0.2, green: 0.15, blue: 0.25)], startPoint: .top, endPoint: .bottom)
     }
-    
-
-    
-
 }
 
 #Preview {
-    ConnectionView {
-        print("Connection completed")
-    }
+    ConnectionView { print("Connection completed") }
 }

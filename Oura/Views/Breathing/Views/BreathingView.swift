@@ -5,8 +5,8 @@ private struct Particle: Identifiable {
     let randomMaxRadius: CGFloat = .random(in: 150...300)
     let holdRadius: CGFloat = 40 * .random(in: 0.8...1.2)
     let randomAngle = Angle.degrees(Double.random(in: 0...360))
-    let size: CGFloat = .random(in: 5...70)
-    let initialOpacity: Double = .random(in: 0.01...0.15)
+    let size: CGFloat = .random(in: 5...100)
+    let initialOpacity: Double = .random(in: 0.01...0.2)
     let randomAnimationOffset: Double = .random(in: 0...1)
 }
 
@@ -49,21 +49,24 @@ private struct ParticleView: View {
 struct BreathingView: View {
     let onComplete: () -> Void
     
-    @StateObject private var store = BreathingStore()
+    @StateObject private var store: BreathingStore
     @State private var particles: [Particle] = []
+    
+    init(onComplete: @escaping () -> Void) {
+        self.onComplete = onComplete
+        _store = StateObject(wrappedValue: BreathingStore(onComplete: onComplete))
+    }
     
     var body: some View {
         ZStack {
             backgroundGradient.ignoresSafeArea()
             
             VStack(spacing: 0) {
-                Spacer()
                 headerText
-                Spacer(minLength: 40)
-                breathingAnimationView
-                Spacer(minLength: 40)
-                bottomButtonView
                 Spacer()
+                breathingAnimationView
+                Spacer()
+                bottomSection
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
@@ -179,19 +182,25 @@ struct BreathingView: View {
                 .transition(.opacity.combined(with: .scale(scale: 1.2)))
             }
         }
-        .animation(.easeInOut(duration: 1.5), value: store.isCompleted)
+        .animation(.easeInOut(duration: 0.6), value: store.isCompleted)
         .animation(.easeInOut(duration: 0.8), value: store.breathingText)
     }
     
-    private var bottomButtonView: some View {
+    private var bottomSection: some View {
         VStack {
             if !store.hasStarted {
-                Button(action: { store.startBreathing(onComplete: onComplete) }) {
+                Button(action: { store.startBreathing() }) {
                     buttonStyle(colors: [.orange, .red.opacity(0.8)], icon: "wind", text: LocalizationKeys.Breathing.Button.start.localized)
                 }
-            } else {
-                Rectangle().fill(Color.clear).frame(height: 56)
             }
+            
+            Button(action: { store.completeBreathing(isSkipped: true) }) {
+                Text(localized: LocalizationKeys.Common.Button.skip)
+                    .font(.caption)
+                    .foregroundStyle(.white.opacity(0.6))
+                    .padding(10)
+            }
+            .opacity(store.isCompleted ? 0 : 1)
         }
         .padding(.horizontal, 40).frame(minHeight: 80)
     }
@@ -209,15 +218,29 @@ struct BreathingView: View {
     }
     
     private var backgroundGradient: some View {
-        LinearGradient(
-            colors: [
-                Color(red: 0.1, green: 0.1, blue: 0.15),
-                Color(red: 0.15, green: 0.15, blue: 0.2),
-                Color(red: 0.2, green: 0.15, blue: 0.25)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        LinearGradient(colors: [Color(red: 0.1, green: 0.1, blue: 0.15), Color(red: 0.15, green: 0.15, blue: 0.2), Color(red: 0.2, green: 0.15, blue: 0.25)], startPoint: .top, endPoint: .bottom)
+    }
+}
+
+private extension BreathingStore {
+    var gatheredProgress: Double {
+        if !hasStarted {
+            return 0.0
+        } else {
+            switch currentPhase {
+            case .inhale: return phaseProgress
+            case .hold: return 1.0
+            case .exhale: return phaseProgress // Corrected Logic: No longer inverting the progress
+            }
+        }
+    }
+    
+    var currentAnimation: Animation {
+        switch currentPhase {
+        case .inhale: return .easeInOut(duration: inhaleDuration)
+        case .hold: return .linear(duration: 0)
+        case .exhale: return .easeInOut(duration: exhaleDuration)
+        }
     }
 }
 

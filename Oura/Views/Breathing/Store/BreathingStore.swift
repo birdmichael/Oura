@@ -11,7 +11,7 @@ class BreathingStore: ObservableObject {
     @Published var currentCycle: Int = 0
     @Published var breathingText: String
     @Published var currentPhase: BreathingPhase = .inhale
-    @Published var gatheredProgress: Double = 0.0
+    @Published var phaseProgress: Double = 0.0
     
     private var breathingTimer: Timer?
     private var onComplete: (() -> Void)?
@@ -34,7 +34,8 @@ class BreathingStore: ObservableObject {
         totalCycleDuration * Double(Self.totalCycles)
     }
     
-    init() {
+    init(onComplete: (() -> Void)?) {
+        self.onComplete = onComplete
         self.breathingText = LocalizationKeys.Status.readyToStart.localized
         updatePhase(to: .inhale, initial: true)
         inhaleHaptic.prepare()
@@ -42,26 +43,33 @@ class BreathingStore: ObservableObject {
         exhaleHaptic.prepare()
     }
     
-    func startBreathing(onComplete: (() -> Void)? = nil) {
+    func startBreathing() {
         guard !hasStarted else { return }
         
         hasStarted = true
         startTime = Date()
-        self.onComplete = onComplete
         updatePhase(to: .inhale)
         startBreathingCycle()
     }
     
-    func completeBreathing() {
+    func completeBreathing(isSkipped: Bool = false) {
+        guard !isCompleted else { return }
         stopBreathing()
         isCompleted = true
-        breathingText = LocalizationKeys.Status.completed.localized
         
-        withAnimation(.easeOut(duration: 2.0)) {
-            gatheredProgress = 0.0
+        if isSkipped {
+            onComplete?()
+            return
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        breathingText = LocalizationKeys.Status.completed.localized
+        let delay = 0.5
+        
+        withAnimation(.easeOut(duration: 0.6)) {
+            phaseProgress = 0.0
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             self.onComplete?()
         }
     }
@@ -91,13 +99,13 @@ class BreathingStore: ObservableObject {
         
         if cycleProgress < inhaleDuration {
             if currentPhase != .inhale { updatePhase(to: .inhale) }
-            gatheredProgress = easeInOut(cycleProgress / inhaleDuration)
+            phaseProgress = easeInOut(cycleProgress / inhaleDuration)
         } else if cycleProgress < inhaleDuration + holdDuration {
             if currentPhase != .hold { updatePhase(to: .hold) }
-            gatheredProgress = 1.0
+            phaseProgress = 1.0
         } else {
             if currentPhase != .exhale { updatePhase(to: .exhale) }
-            gatheredProgress = 1.0 - easeInOut((cycleProgress - inhaleDuration - holdDuration) / exhaleDuration)
+            phaseProgress = 1.0 - easeInOut((cycleProgress - inhaleDuration - holdDuration) / exhaleDuration)
         }
     }
     
@@ -123,13 +131,5 @@ class BreathingStore: ObservableObject {
     
     private func easeInOut(_ t: Double) -> Double {
         return t < 0.5 ? 4 * t * t * t : 1 - pow(-2 * t + 2, 3) / 2
-    }
-    
-    var currentAnimation: Animation {
-        switch currentPhase {
-        case .inhale: return .easeInOut(duration: inhaleDuration)
-        case .hold: return .linear(duration: holdDuration)
-        case .exhale: return .easeInOut(duration: exhaleDuration)
-        }
     }
 }
