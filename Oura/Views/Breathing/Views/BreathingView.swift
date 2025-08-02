@@ -5,9 +5,9 @@ private struct Particle: Identifiable {
     let randomMaxRadius: CGFloat = .random(in: 150...300)
     let holdRadius: CGFloat = 40 * .random(in: 0.8...1.2)
     let randomAngle = Angle.degrees(Double.random(in: 0...360))
-    let size: CGFloat = .random(in: 5...100)
+    let size: CGFloat = .random(in: 5...140)
     let initialOpacity: Double = .random(in: 0.01...0.2)
-    let randomAnimationOffset: Double = .random(in: 0...1)
+    let randomAnimationOffset: Double = .random(in: 0...20)
 }
 
 private struct ParticleView: View {
@@ -163,8 +163,9 @@ struct BreathingView: View {
         ZStack {
             if !store.isCompleted {
                 Text(store.breathingText)
-                    .font(.title).fontWeight(.medium).foregroundStyle(.white)
+                    .font(.largeTitle).fontWeight(.bold).foregroundStyle(.white)
                     .transition(.opacity.combined(with: .scale(scale: 0.8)))
+                    .shadow(color: .black.opacity(0.9), radius: 20, x: 0, y: 0)
             } else {
                 VStack {
                     Image(systemName: "checkmark.circle.fill")
@@ -230,7 +231,7 @@ private extension BreathingStore {
             switch currentPhase {
             case .inhale: return phaseProgress
             case .hold: return 1.0
-            case .exhale: return phaseProgress // Corrected Logic: No longer inverting the progress
+            case .exhale: return phaseProgress
             }
         }
     }
@@ -238,7 +239,7 @@ private extension BreathingStore {
     var currentAnimation: Animation {
         switch currentPhase {
         case .inhale: return .easeInOut(duration: inhaleDuration)
-        case .hold: return .linear(duration: 0)
+        case .hold: return .linear(duration: holdDuration)
         case .exhale: return .easeInOut(duration: exhaleDuration)
         }
     }
