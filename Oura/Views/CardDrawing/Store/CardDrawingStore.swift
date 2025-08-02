@@ -9,7 +9,7 @@ class CardDrawingStore: ObservableObject, CardDrawingStoreProtocol {
     @Published var nextCardIndex: Int = 0
     @Published var revealedCount: Int = 0
     
-    private let availableCards = TarotCardName.allCases
+    private let availableCards = TarotCardType.allCases
     
     init(spreadType: TarotSpreadType = .relationship) {
         self.currentSpread = UniversalTarotSpread(spreadType: spreadType)
@@ -19,8 +19,8 @@ class CardDrawingStore: ObservableObject, CardDrawingStoreProtocol {
     func generateReading() {
         let shuffledCards = availableCards.shuffled()
         
-        currentSpread.cards = Array(shuffledCards.prefix(currentSpread.positions.count)).map { cardName in
-            Card(name: cardName.rawValue, imageName: cardName.imageName)
+        currentSpread.cards = Array(shuffledCards.prefix(currentSpread.positions.count)).map { cardType in
+            TarotCardModel(cardType: cardType)
         }
         
         isReadingGenerated = true
@@ -32,7 +32,7 @@ class CardDrawingStore: ObservableObject, CardDrawingStoreProtocol {
         
         selectedCardIndex = index
         
-        if var card = currentSpread.cards[index] as? Card {
+        if var card = currentSpread.cards[index] as? TarotCardModel {
             card.isRevealed = true
             currentSpread.cards[index] = card
             

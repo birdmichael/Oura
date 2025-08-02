@@ -50,6 +50,33 @@ enum MajorArcana: String, CaseIterable {
         case .world: return "世界"
         }
     }
+    
+    var imageName: String {
+        switch self {
+        case .fool: return "tarot_card_1"
+        case .magician: return "tarot_card_2"
+        case .highPriestess: return "tarot_card_3"
+        case .empress: return "tarot_card_4"
+        case .emperor: return "tarot_card_5"
+        case .hierophant: return "tarot_card_6"
+        case .lovers: return "tarot_card_7"
+        case .chariot: return "tarot_card_8"
+        case .strength: return "tarot_card_9"
+        case .hermit: return "tarot_card_10"
+        case .wheelOfFortune: return "tarot_card_11"
+        case .justice: return "tarot_card_12"
+        case .hangedMan: return "tarot_card_13"
+        case .death: return "tarot_card_14"
+        case .temperance: return "tarot_card_15"
+        case .devil: return "tarot_card_16"
+        case .tower: return "tarot_card_17"
+        case .star: return "tarot_card_18"
+        case .moon: return "tarot_card_19"
+        case .sun: return "tarot_card_20"
+        case .judgement: return "tarot_card_21"
+        case .world: return "tarot_card_22"
+        }
+    }
 }
 
 enum MinorArcanaRank: String, CaseIterable {
@@ -204,7 +231,12 @@ struct TarotCardModel: TarotCard {
     }
     
     var imageName: String {
-        cardType.rawValue
+        switch cardType {
+        case .majorArcana(let majorCard):
+            return majorCard.imageName
+        case .minorArcana(let suit, let rank):
+            return "\(rank.rawValue)_of_\(suit.rawValue)"
+        }
     }
     
     init(cardType: TarotCardType, isRevealed: Bool = false) {
