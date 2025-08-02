@@ -50,6 +50,7 @@ enum LocalizationKeys {
         
         enum Status {
             static let inhale = "breathing.status.inhale"
+            static let hold = "breathing.status.hold"
             static let exhale = "breathing.status.exhale"
         }
     }

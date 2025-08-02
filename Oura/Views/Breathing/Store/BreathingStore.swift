@@ -1,44 +1,68 @@
 import SwiftUI
 import Foundation
 
+enum BreathingPhase: CaseIterable {
+    case inhale, hold, exhale
+}
+
 class BreathingStore: ObservableObject {
     @Published var hasStarted: Bool = false
     @Published var isCompleted: Bool = false
     @Published var currentCycle: Int = 0
-    @Published var breathingScale: CGFloat = 1.0
     @Published var breathingText: String
+    @Published var currentPhase: BreathingPhase = .inhale
+    @Published var gatheredProgress: Double = 0.0
     
-    @Published private var isInhaling: Bool = true
     private var breathingTimer: Timer?
+    private var onComplete: (() -> Void)?
+    private var startTime: Date?
     
-    static let totalCycles = 2
-    private let breathingDuration: TimeInterval = 4.5
+    private let inhaleHaptic = UIImpactFeedbackGenerator(style: .light)
+    private let holdHaptic = UIImpactFeedbackGenerator(style: .rigid)
+    private let exhaleHaptic = UIImpactFeedbackGenerator(style: .soft)
+    
+    static let totalCycles = 3
+    let inhaleDuration: TimeInterval = 4.0
+    let holdDuration: TimeInterval = 2.0
+    let exhaleDuration: TimeInterval = 6.0
+    
+    private var totalCycleDuration: TimeInterval {
+        inhaleDuration + holdDuration + exhaleDuration
+    }
+    
+    private var totalDuration: TimeInterval {
+        totalCycleDuration * Double(Self.totalCycles)
+    }
     
     init() {
         self.breathingText = LocalizationKeys.Status.readyToStart.localized
+        updatePhase(to: .inhale, initial: true)
+        inhaleHaptic.prepare()
+        holdHaptic.prepare()
+        exhaleHaptic.prepare()
     }
     
     func startBreathing(onComplete: (() -> Void)? = nil) {
+        guard !hasStarted else { return }
+        
         hasStarted = true
-        currentCycle = 0
+        startTime = Date()
         self.onComplete = onComplete
+        updatePhase(to: .inhale)
         startBreathingCycle()
     }
     
-    private var onComplete: (() -> Void)?
-    
-    func completeBreathing(onComplete: (() -> Void)? = nil) {
+    func completeBreathing() {
         stopBreathing()
         isCompleted = true
         breathingText = LocalizationKeys.Status.completed.localized
         
-        withAnimation(.easeOut(duration: 0.5)) {
-            breathingScale = 1.3
+        withAnimation(.easeOut(duration: 2.0)) {
+            gatheredProgress = 0.0
         }
-        if let onComplete = onComplete {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                onComplete()
-            }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.onComplete?()
         }
     }
     
@@ -48,46 +72,64 @@ class BreathingStore: ObservableObject {
     }
     
     private func startBreathingCycle() {
-        breathingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
-            self.updateBreathingAnimation()
+        breathingTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { [weak self] _ in
+            self?.updateBreathingAnimation()
         }
     }
     
     private func updateBreathingAnimation() {
-        let cycleProgress = Date().timeIntervalSince1970.truncatingRemainder(dividingBy: breathingDuration * 2)
+        guard let startTime = startTime else { return }
+        let elapsedTime = Date().timeIntervalSince(startTime)
         
-        if cycleProgress < breathingDuration {
-            if !isInhaling {
-                isInhaling = true
-                currentCycle += 1
-            }
-            breathingText = LocalizationKeys.Breathing.Status.inhale.localized
-            let progress = cycleProgress / breathingDuration
-            let smoothProgress = easeInOutSine(progress)
-            breathingScale = 1.0 + (smoothProgress * 0.5)
+        if elapsedTime >= totalDuration {
+            if !isCompleted { completeBreathing() }
+            return
+        }
+        
+        currentCycle = Int(floor(elapsedTime / totalCycleDuration)) + 1
+        let cycleProgress = elapsedTime.truncatingRemainder(dividingBy: totalCycleDuration)
+        
+        if cycleProgress < inhaleDuration {
+            if currentPhase != .inhale { updatePhase(to: .inhale) }
+            gatheredProgress = easeInOut(cycleProgress / inhaleDuration)
+        } else if cycleProgress < inhaleDuration + holdDuration {
+            if currentPhase != .hold { updatePhase(to: .hold) }
+            gatheredProgress = 1.0
         } else {
-            isInhaling = false
-            breathingText = LocalizationKeys.Breathing.Status.exhale.localized
-            let progress = (cycleProgress - breathingDuration) / breathingDuration
-            let smoothProgress = easeInOutSine(progress)
-            breathingScale = 1.5 - (smoothProgress * 0.5)
-            
-            if progress > 0.95 && currentCycle >= Self.totalCycles {
-                completeBreathing(onComplete: onComplete)
-            }
+            if currentPhase != .exhale { updatePhase(to: .exhale) }
+            gatheredProgress = 1.0 - easeInOut((cycleProgress - inhaleDuration - holdDuration) / exhaleDuration)
         }
     }
     
-    private func easeInOutSine(_ t: Double) -> Double {
-        return -(cos(.pi * t) - 1) / 2
+    private func updatePhase(to newPhase: BreathingPhase, initial: Bool = false) {
+        currentPhase = newPhase
+        
+        if !initial {
+            switch newPhase {
+            case .inhale:
+                breathingText = LocalizationKeys.Breathing.Status.inhale.localized
+                inhaleHaptic.impactOccurred()
+            case .hold:
+                breathingText = LocalizationKeys.Breathing.Status.hold.localized
+                holdHaptic.impactOccurred(intensity: 0.7)
+            case .exhale:
+                breathingText = LocalizationKeys.Breathing.Status.exhale.localized
+                exhaleHaptic.impactOccurred()
+            }
+        } else {
+            breathingText = LocalizationKeys.Status.readyToStart.localized
+        }
     }
     
-    private func easeInOutCubic(_ t: Double) -> Double {
-        if t < 0.5 {
-            return 4 * t * t * t
-        } else {
-            let f = t - 1
-            return 1 + 4 * f * f * f
+    private func easeInOut(_ t: Double) -> Double {
+        return t < 0.5 ? 4 * t * t * t : 1 - pow(-2 * t + 2, 3) / 2
+    }
+    
+    var currentAnimation: Animation {
+        switch currentPhase {
+        case .inhale: return .easeInOut(duration: inhaleDuration)
+        case .hold: return .linear(duration: holdDuration)
+        case .exhale: return .easeInOut(duration: exhaleDuration)
         }
     }
 }

@@ -4,6 +4,9 @@
     "" : {
 
     },
+    " " : {
+
+    },
     "%@" : {
 
     },
@@ -304,6 +307,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "呼气"
+          }
+        }
+      }
+    },
+    "breathing.status.hold" : {
+      "comment" : "Hold breath status text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hold"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "保持"
           }
         }
       }
