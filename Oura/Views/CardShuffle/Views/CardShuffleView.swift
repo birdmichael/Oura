@@ -2,31 +2,90 @@ import SwiftUI
 
 struct CardShuffleView: View {
     @StateObject private var store = CardShuffleStore()
+    let onShuffleComplete: (() -> Void)?
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var hasStartedShuffle = false
+    
+    init(onShuffleComplete: (() -> Void)? = nil) {
+        self.onShuffleComplete = onShuffleComplete
+    }
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                backgroundGradient
+                purpleGradientBackground
                     .ignoresSafeArea()
                 
-                VStack(spacing: adaptiveSpacing(for: geometry.size)) {
-                    headerSection(for: geometry.size)
+                VStack(spacing: 0) {
+                    // 导航栏
+                    HStack {
+                        Button(action: {
+                            dismiss()
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .font(.title2)
+                                .foregroundStyle(.white)
+                        }
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 20)
                     
                     Spacer()
                     
+                    // 标题区域
+                    VStack(spacing: 16) {
+                        Text("洗牌")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                        
+                        if !hasStartedShuffle {
+                            Text("点击开始按钮开始洗牌")
+                                .font(.body)
+                                .foregroundStyle(.white.opacity(0.8))
+                                .multilineTextAlignment(.center)
+                        } else {
+                            Text("当你感觉足够时，点击停止")
+                                .font(.body)
+                                .foregroundStyle(.white.opacity(0.8))
+                                .multilineTextAlignment(.center)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    // 卡牌洗牌区域
                     cardsSection
+                        .onAppear {
+                            store.setContainerSize(geometry.size)
+                        }
+                        .onChange(of: geometry.size) {
+                            store.setContainerSize(geometry.size)
+                        }
                     
                     Spacer()
                     
-                    buttonSection
+                    // 底部按钮
+                    shuffleControlButton
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 40)
                 }
-                .padding(.horizontal, adaptivePadding(for: geometry.size))
-                .padding(.top, 60)
-                .padding(.bottom, 40)
             }
         }
         .onDisappear {
             store.stopShuffle()
+            onShuffleComplete?()
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("完成") {
+                    dismiss()
+                }
+                .foregroundStyle(.white)
+            }
         }
     }
     
@@ -48,7 +107,7 @@ struct CardShuffleView: View {
         }
     }
     
-    private var backgroundGradient: some View {
+    private var purpleGradientBackground: some View {
         LinearGradient(
             colors: [
                 Color(red: 0.1, green: 0.1, blue: 0.15),
@@ -60,70 +119,76 @@ struct CardShuffleView: View {
         )
     }
     
-    private func headerSection(for size: CGSize) -> some View {
-        VStack(spacing: 16) {
-            Text("shuffle.title")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-                .multilineTextAlignment(.center)
-            
-            Text("shuffle.instruction")
-                .font(.body)
-                .foregroundStyle(.white.opacity(0.8))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 20)
-        }
-    }
+
     
     private var cardsSection: some View {
-        GeometryReader { geometry in
-            ZStack {
-                ForEach(store.cards) { card in
-                    ShuffleCardView(card: card)
-                        .position(
-                            x: geometry.size.width / 2 + card.position.x,
-                            y: geometry.size.height / 2 + card.position.y
-                        )
-                        .rotationEffect(.degrees(card.rotation))
-                        .zIndex(card.zIndex)
+        ZStack {
+            // 卡牌区域背景
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white.opacity(0.05))
+                .frame(height: 300)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+            
+            // 洗牌卡牌
+            GeometryReader { geometry in
+                ZStack {
+                    ForEach(store.cards) { card in
+                        ShuffleCardView(card: card)
+                            .position(
+                                x: geometry.size.width / 2 + card.position.x,
+                                y: geometry.size.height / 2 + card.position.y
+                            )
+                            .rotationEffect(.degrees(card.rotation))
+                            .zIndex(card.zIndex)
+                    }
                 }
             }
-            .onAppear {
-                store.setContainerSize(geometry.size)
-            }
-            .onChange(of: geometry.size) { newSize in
-                store.setContainerSize(newSize)
-            }
+            .frame(height: 300)
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: 300)
+        .padding(.horizontal, 20)
     }
     
-    private var buttonSection: some View {
+    private var shuffleControlButton: some View {
         Button(action: {
             if store.isShuffling {
+                // 停止洗牌，完成流程
                 store.stopShuffle()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    onShuffleComplete?()
+                    dismiss()
+                }
             } else {
+                // 开始洗牌
+                hasStartedShuffle = true
                 store.startShuffle()
             }
         }) {
-            RoundedRectangle(cornerRadius: 25)
+            RoundedRectangle(cornerRadius: 28)
                 .fill(
                     LinearGradient(
                         colors: store.isShuffling ? 
-                            [.gray, .gray.opacity(0.8)] :
-                            [.orange, .red.opacity(0.8)],
+                            [Color.white] :
+                            [Color.orange, Color.red.opacity(0.8)],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
                 )
-                .frame(height: 50)
+                .frame(height: 56)
                 .overlay(
-                    Text(store.isShuffling ? "shuffle.stop" : "shuffle.start")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
+                    HStack(spacing: 8) {
+                        if !hasStartedShuffle {
+                            Image(systemName: "shuffle")
+                                .font(.title3)
+                        }
+                        
+                        Text(store.isShuffling ? "停止洗牌" : (hasStartedShuffle ? "停止洗牌" : "开始洗牌"))
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                    }
+                    .foregroundStyle(store.isShuffling ? .blue : .white)
                 )
         }
         .buttonStyle(PlainButtonStyle())
@@ -133,5 +198,5 @@ struct CardShuffleView: View {
 }
 
 #Preview {
-    CardShuffleView()
+    CardShuffleView(onShuffleComplete: nil)
 }

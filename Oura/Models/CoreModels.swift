@@ -230,6 +230,11 @@ struct TarotCardModel: TarotCard {
         cardType.localizedName
     }
     
+    /// 卡牌显示名称（别名）
+    var displayName: String {
+        name
+    }
+    
     var imageName: String {
         switch cardType {
         case .majorArcana(let majorCard):

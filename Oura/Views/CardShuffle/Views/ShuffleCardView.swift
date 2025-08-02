@@ -5,7 +5,7 @@ struct ShuffleCardView: View {
     
     var body: some View {
         TarotCardView(
-            cardType: .fool,
+            cardType: .majorArcana(.fool),
             isRevealed: false,
             size: card.size,
             onTap: nil
@@ -20,5 +20,9 @@ struct ShuffleCardView: View {
 }
 
 #Preview {
-    ShuffleCardView(card: ShuffleCard())
+    ShuffleCardView(card: ShuffleCard(
+        position: CGPoint(x: 0, y: 0),
+        rotation: 0,
+        zIndex: 1
+    ))
 }

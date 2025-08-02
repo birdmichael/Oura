@@ -78,7 +78,6 @@ struct SpreadTypeCard: View {
                         .font(.caption2)
                         .foregroundStyle(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
-                        .lineLimit(2)
                 }
             }
             .padding(16)

@@ -2,8 +2,17 @@ import Foundation
 import SwiftUI
 import UIKit
 
+struct ShuffleCard: Identifiable {
+    let id = UUID()
+    var position: CGPoint
+    var rotation: Double
+    var zIndex: Double
+    var shouldShowShadow: Bool = false
+    var size: CGSize = CGSize(width: 60, height: 90)
+}
+
 @MainActor
-class CardShuffleStore: ObservableObject, CardShuffleStoreProtocol {
+class CardShuffleStore: ObservableObject {
     @Published var cards: [ShuffleCard] = []
     @Published var isShuffling: Bool = false
     var shuffleTimer: Timer?

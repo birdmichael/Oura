@@ -49,7 +49,6 @@ struct CardDrawingCardView: View {
                 .font(.system(size: min(cardSize.width * 0.15, 12)))
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
-                .lineLimit(1)
                 .minimumScaleFactor(0.7)
         }
     }

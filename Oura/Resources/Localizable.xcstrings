@@ -1,137 +1,1180 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    "" : {
+
+    },
+    "%@" : {
+
+    },
+    "%lld. %@：" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld. %2$@："
+          }
+        }
+      }
+    },
     "%lld张卡牌" : {
-      "comment" : "Number of cards",
+      "comment" : "Number of cards"
+    },
+    "app.subtitle" : {
+      "comment" : "Application subtitle",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld Cards"
-          }
-        }
-      }
-    },
-    "spread.celtic_cross" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Celtic Cross"
-          }
-        }
-      }
-    },
-    "spread.relationship" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Relationship Reading"
+            "value" : "Explore Inner Wisdom"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关系占卜"
+            "value" : "探索内心的智慧指引"
           }
         }
       }
     },
-    "spread.single" : {
-      "extractionState" : "manual",
+    "app.title" : {
+      "comment" : "Application main title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Single Card Reading"
+            "value" : "Tarot Reading"
           }
-        }
-      }
-    },
-    "spread.three_card" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Three Card Reading"
+            "value" : "塔罗占卜"
           }
         }
       }
     },
-    "spread.yearly_reading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yearly Reading"
-          }
-        }
-      }
-    },
-    "取消" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
-          }
-        }
-      }
-    },
-    "更换牌阵" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Change Spread"
-          }
-        }
-      }
-    },
-    "继续" : {
+    "breathing.button.continue" : {
+      "comment" : "Continue after breathing",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continue"
           }
-        }
-      }
-    },
-    "选择牌阵" : {
-      "localizations" : {
-        "en" : {
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select Spread"
+            "value" : "继续"
           }
         }
       }
     },
-    "shuffle.instruction" : {
-      "extractionState" : "manual",
+    "breathing.button.start" : {
+      "comment" : "Start breathing button",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Long press the button to shuffle, release to stop. Shake to shuffle manually."
+            "value" : "Start Breathing"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "长按按钮洗牌，松开即停止。摇一摇可手动洗牌。"
+            "value" : "开始呼吸"
           }
         }
       }
     },
-    "shuffle.start" : {
-      "extractionState" : "manual",
+    "breathing.entering_connection" : {
+      "comment" : "Entering connection phase",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entering card connection..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即将进入卡牌连接..."
+          }
+        }
+      }
+    },
+    "breathing.focus_meditation" : {
+      "comment" : "Focus meditation instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus and prepare for deep breathing"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静心专注，准备开始深呼吸"
+          }
+        }
+      }
+    },
+    "breathing.follow_rhythm" : {
+      "comment" : "Follow breathing rhythm instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow the rhythm and breathe deeply"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随节奏深呼吸"
+          }
+        }
+      }
+    },
+    "breathing.instruction" : {
+      "comment" : "Breathing instruction text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow the rhythm of the screen, breathe deeply in and out"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随屏幕的节奏，深深地呼，深深地吸"
+          }
+        }
+      }
+    },
+    "breathing.practice_complete" : {
+      "comment" : "Breathing practice complete",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Breathing practice complete"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "呼吸练习完成"
+          }
+        }
+      }
+    },
+    "breathing.relax_body" : {
+      "comment" : "Relax body instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let your body and mind completely relax"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让身心完全放松"
+          }
+        }
+      }
+    },
+    "breathing.remaining_cycles" : {
+      "comment" : "Remaining breathing cycles",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remaining %lld times"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余 %lld 次"
+          }
+        }
+      }
+    },
+    "breathing.start_practice" : {
+      "comment" : "Start breathing practice instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click the button below to start breathing practice"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击下方按钮开始呼吸练习"
+          }
+        }
+      }
+    },
+    "breathing.status.exhale" : {
+      "comment" : "Exhale status text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exhale"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "呼气"
+          }
+        }
+      }
+    },
+    "breathing.status.inhale" : {
+      "comment" : "Inhale status text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inhale"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "吸气"
+          }
+        }
+      }
+    },
+    "breathing.title" : {
+      "comment" : "Breathing module title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deep Breathing, Calm Down"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深呼吸，平静下来"
+          }
+        }
+      }
+    },
+    "card_selection.all_selected" : {
+      "comment" : "All cards selected message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All cards have been selected"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有卡牌已选择完成"
+          }
+        }
+      }
+    },
+    "card_selection.button.restart" : {
+      "comment" : "Restart button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新开始"
+          }
+        }
+      }
+    },
+    "card_selection.button.results" : {
+      "comment" : "View results button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Results"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看结果"
+          }
+        }
+      }
+    },
+    "card_selection.card_wisdom" : {
+      "comment" : "Card wisdom message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each card contains unique wisdom"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一张牌都蕴含着独特的智慧"
+          }
+        }
+      }
+    },
+    "card_selection.interpretation_ready" : {
+      "comment" : "Ready for interpretation message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About to interpret the meaning of the cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即将为您解读卡牌含义"
+          }
+        }
+      }
+    },
+    "card_selection.remaining" : {
+      "comment" : "Remaining cards to select",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Need to select %lld more cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还需选择 %lld 张牌"
+          }
+        }
+      }
+    },
+    "card_selection.tap_to_reveal" : {
+      "comment" : "Tap card to reveal instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the back of a card to reveal it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻触卡牌背面翻开"
+          }
+        }
+      }
+    },
+    "card_selection.title" : {
+      "comment" : "Card selection module title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Your Cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择你的牌"
+          }
+        }
+      }
+    },
+    "card_selection.view_results" : {
+      "comment" : "View results button instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please click the button below to view results"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请点击下方按钮查看结果"
+          }
+        }
+      }
+    },
+    "common.button.cancel" : {
+      "comment" : "Cancel button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消"
+          }
+        }
+      }
+    },
+    "common.button.close" : {
+      "comment" : "Close button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭"
+          }
+        }
+      }
+    },
+    "common.button.continue" : {
+      "comment" : "Continue button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续"
+          }
+        }
+      }
+    },
+    "completed.instruction" : {
+      "comment" : "Click cards to view details",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click any revealed card to view details"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击任意已翻开的牌查看详情"
+          }
+        }
+      }
+    },
+    "completed.title" : {
+      "comment" : "Reading completed title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading Complete"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "占卜完成"
+          }
+        }
+      }
+    },
+    "connection.connecting_cards" : {
+      "comment" : "Connecting with cards message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Establishing connection with cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在与卡牌建立连接"
+          }
+        }
+      }
+    },
+    "connection.energy_text" : {
+      "comment" : "Energy connection description",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every vibration at your fingertips is a response to cosmic energy."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一次指尖的震动，都是跟宇宙能量的感应。"
+          }
+        }
+      }
+    },
+    "connection.feel_energy" : {
+      "comment" : "Feel energy flow message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feel the energy flow of the cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感受卡牌的能量流动"
+          }
+        }
+      }
+    },
+    "connection.instruction" : {
+      "comment" : "Connection instruction text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place your hand on the cards, long press to connect with this deck."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把手放在牌上，长按连接这幅牌。"
+          }
+        }
+      }
+    },
+    "connection.keep_pressing" : {
+      "comment" : "Keep pressing instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please keep pressing, don't release"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请保持按压不要松开"
+          }
+        }
+      }
+    },
+    "connection.long_press_start" : {
+      "comment" : "Long press to start connection",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long press the center card to start connection"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长按中心卡牌开始连接"
+          }
+        }
+      }
+    },
+    "connection.status.connecting" : {
+      "comment" : "Connection in progress status",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecting... %lld%%"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在连接... %lld%%"
+          }
+        }
+      }
+    },
+    "connection.status.hold_instruction" : {
+      "comment" : "Hold to connect instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep holding until connection complete"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持长按直到连接完成"
+          }
+        }
+      }
+    },
+    "connection.status.release_warning" : {
+      "comment" : "Release warning text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Releasing will restart the connection process"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "松手将重新开始连接过程"
+          }
+        }
+      }
+    },
+    "connection.status.start_instruction" : {
+      "comment" : "Start connection instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long press cards to start connection"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长按卡牌开始连接"
+          }
+        }
+      }
+    },
+    "connection.title" : {
+      "comment" : "Connection module title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect with Your Cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与你的牌连接"
+          }
+        }
+      }
+    },
+    "preparation.button.start" : {
+      "comment" : "Start divination button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Divination"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始占卜"
+          }
+        }
+      }
+    },
+    "preparation.calm_mind" : {
+      "comment" : "Calm your mind instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let your mind become calm"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让内心平静下来"
+          }
+        }
+      }
+    },
+    "preparation.focus_question" : {
+      "comment" : "Focus on question instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus on the question you want to understand"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专注于你想要了解的问题"
+          }
+        }
+      }
+    },
+    "preparation.start_journey" : {
+      "comment" : "Start tarot journey instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a deep breath, prepare to begin the tarot journey"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深呼吸，准备开启塔罗之旅"
+          }
+        }
+      }
+    },
+    "preparation.title" : {
+      "comment" : "Preparation phase title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prepare to Begin Divination"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "准备开始占卜"
+          }
+        }
+      }
+    },
+    "reading.advice" : {
+      "comment" : "Reading advice section title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Advice"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建议"
+          }
+        }
+      }
+    },
+    "reading.generating" : {
+      "comment" : "Generating reading message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generating reading..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在生成解读..."
+          }
+        }
+      }
+    },
+    "reading.interpretation" : {
+      "comment" : "Card interpretation section title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Card Analysis"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "牌阵解析"
+          }
+        }
+      }
+    },
+    "reading.restart" : {
+      "comment" : "Restart reading button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新占卜"
+          }
+        }
+      }
+    },
+    "reading.summary" : {
+      "comment" : "Reading summary section title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summary"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总结"
+          }
+        }
+      }
+    },
+    "relationship_reading.title" : {
+      "comment" : "Relationship reading title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relationship Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关系解读"
+          }
+        }
+      }
+    },
+    "shuffle.button.continue" : {
+      "comment" : "Continue to card selection",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Card Selection"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始选牌"
+          }
+        }
+      }
+    },
+    "shuffle.button.start" : {
+      "comment" : "Start shuffle button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Shuffle"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始洗牌"
+          }
+        }
+      }
+    },
+    "shuffle.button.stop" : {
+      "comment" : "Stop shuffle button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop Shuffle"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止洗牌"
+          }
+        }
+      }
+    },
+    "shuffle.completed" : {
+      "comment" : "Shuffling completed text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shuffling Complete"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "洗牌完成"
+          }
+        }
+      }
+    },
+    "shuffle.energy_fusion" : {
+      "comment" : "Energy fusion instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let the question's energy merge with the cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让问题的能量融入卡牌"
+          }
+        }
+      }
+    },
+    "shuffle.enter_selection" : {
+      "comment" : "Entering card selection text",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entering card selection..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即将进入选牌..."
+          }
+        }
+      }
+    },
+    "shuffle.instruction.completed" : {
+      "comment" : "Shuffle completed instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shuffling complete, ready to select cards"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "洗牌完成，准备选牌"
+          }
+        }
+      }
+    },
+    "shuffle.instruction.start" : {
+      "comment" : "Start shuffle instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click the start button to begin shuffling"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点击开始按钮开始洗牌"
+          }
+        }
+      }
+    },
+    "shuffle.instruction.stop" : {
+      "comment" : "Stop shuffle instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you feel it's enough, click stop"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你感觉足够时，点击停止"
+          }
+        }
+      }
+    },
+    "shuffle.meditation_title" : {
+      "comment" : "Shuffle meditation title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shuffling Meditation"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "洗牌冥想"
+          }
+        }
+      }
+    },
+    "shuffle.stay_focused" : {
+      "comment" : "Stay focused instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stay Focused"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持专注"
+          }
+        }
+      }
+    },
+    "shuffle.stop_when_ready" : {
+      "comment" : "Stop when ready instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you feel the timing is right, stop shuffling"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当你感觉时机恰当时，停止洗牌"
+          }
+        }
+      }
+    },
+    "shuffle.think_question" : {
+      "comment" : "Think about your question instruction",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meditate on your question in your mind"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在心中默想你的问题"
+          }
+        }
+      }
+    },
+    "shuffle.title" : {
+      "comment" : "Shuffle module title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -147,39 +1190,275 @@
         }
       }
     },
-    "shuffle.stop" : {
-      "extractionState" : "manual",
+    "shuffle.when_ready" : {
+      "comment" : "When ready to start shuffling instruction",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop"
+            "value" : "When you feel inner peace, begin shuffling"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "停止"
+            "value" : "当你感受到内心的平静时，开始洗牌"
           }
         }
       }
     },
-    "shuffle.title" : {
-      "extractionState" : "manual",
+    "single_card_reading.title" : {
+      "comment" : "Single card reading title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shuffle Now"
+            "value" : "Single Card Reading"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "立即洗牌"
+            "value" : "单卡解读"
           }
         }
       }
+    },
+    "spread.button.change" : {
+      "comment" : "Change spread button",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " 更换 "
+          }
+        }
+      }
+    },
+    "spread.celtic_cross" : {
+
+    },
+    "spread.celtic_cross.title" : {
+      "comment" : "Celtic cross spread title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Celtic Cross"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "凯尔特十字"
+          }
+        }
+      }
+    },
+    "spread.relationship" : {
+
+    },
+    "spread.relationship.title" : {
+      "comment" : "Relationship spread title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relationship Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关系占卜"
+          }
+        }
+      }
+    },
+    "spread.single" : {
+
+    },
+    "spread.single.title" : {
+      "comment" : "Single card spread title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Single Card Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单张牌占卜"
+          }
+        }
+      }
+    },
+    "spread.three_card" : {
+
+    },
+    "spread.three_card.title" : {
+      "comment" : "Three card spread title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Three Card Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三张牌占卜"
+          }
+        }
+      }
+    },
+    "spread.yearly_reading" : {
+
+    },
+    "spread.yearly_reading.title" : {
+      "comment" : "Yearly reading spread title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yearly Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年度占卜"
+          }
+        }
+      }
+    },
+    "status.completed" : {
+      "comment" : "Completed status",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completed"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
+          }
+        }
+      }
+    },
+    "status.please_wait" : {
+      "comment" : "Please wait status",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please wait..."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请等待..."
+          }
+        }
+      }
+    },
+    "status.ready_to_start" : {
+      "comment" : "Ready to start status",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to start"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "准备开始"
+          }
+        }
+      }
+    },
+    "three_card_reading.title" : {
+      "comment" : "Three card reading title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Three Card Reading"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "三卡解读"
+          }
+        }
+      }
+    },
+    "你抽出的这些牌，我将按照经典的牌阵进行排列，为你揭示内心的智慧和指引。" : {
+
+    },
+    "停止洗牌" : {
+
+    },
+    "关闭" : {
+
+    },
+    "占卜完成" : {
+
+    },
+    "取消" : {
+
+    },
+    "完成" : {
+
+    },
+    "开始洗牌" : {
+
+    },
+    "当你感觉足够时，点击停止" : {
+
+    },
+    "洗牌" : {
+
+    },
+    "点击任意已翻开的牌查看详情" : {
+
+    },
+    "点击开始按钮开始洗牌" : {
+
+    },
+    "请等待..." : {
+
+    },
+    "选择牌阵" : {
+
     }
   },
   "version" : "1.0"

@@ -9,14 +9,14 @@ alwaysApply: true
 ## SwiftUI Development
 - Use SwiftUI for iOS development
 - Target iOS 17+ as minimum deployment target
-- Ensure iPad compatibility and adaptive layouts
-- Use size classes and responsive design patterns
-- Implement proper navigation for both iPhone and iPad
 
 
 ## Code Quality
 - Write clean, standardized code
+- Keep code concise and follow established patterns
 - Minimize comments, let code be self-documenting
+- Avoid unnecessary comments - code should express intent clearly
+- Only add comments for complex business logic or non-obvious implementations
 - Use proper SwiftUI best practices
 - Implement proper state management with `@State`, `@StateObject`, `@ObservedObject`
 - Use appropriate property wrappers
